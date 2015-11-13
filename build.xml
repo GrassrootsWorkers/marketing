@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="wap" default="chooseOne">
+	<property name="basedir" value="." />
+	<property name="weixin-war" value="${basedir}/fronts/target/fronts-1.0-SNAPSHOT.war" />
+	<!-- deploy dir -->
+	<property name="weixin.deploy.dir" value="/app/deploy/weixin/front" />
+	
+	<!-- ##################################compile######################################-->	
+	<target name="app-svn" >
+		<echo> update app throught SVN</echo>
+		<exec executable="svn">
+			<arg value="up"/>
+		</exec>
+	</target>
+	<target name="war-app" >
+		<echo>War this project ..</echo>
+		<exec executable="mvn" >
+			<arg value="clean"/>
+		</exec>	
+                <exec executable="mvn" >
+                        <arg value="install"/>
+                        <arg value="-Dmaven.test.skip=true"/>
+                </exec>
+		<echo>War Success : ${weixin-war}</echo>
+	</target>
+	
+	<tstamp prefix="build">
+        <format property="time" pattern="yyyy-MM-dd.HH.mm.ss"/>
+		<format property="date" pattern="yyyyMMdd"/>
+    </tstamp>
+	
+<!-- ##################################deploy######################################-->	
+	<target name="deploy-front" depends="app-svn,war-app">
+		
+		<echo>Begin deploy...</echo>
+		<exec executable="/bin/bash" >
+			<arg line="-c 'rm -rf ${weixin.deploy.dir}'" />
+		</exec>
+		<mkdir dir="${weixin.deploy.dir}"/>
+		
+		<exec executable="jar" dir="${weixin.deploy.dir}">
+			<arg value="-xfM"/>
+			<arg value="${weixin-war}" />
+		</exec>
+		<echo>deploy complete at ${build.time}.</echo>
+		<echo>now you can start the front tomcat.</echo>
+	</target>
+	<target name="chooseOne">
+		<input message="choose a target " validargs="copy-conf" addproperty="ant.task" />
+		<antcall target="${ant.task}" />
+	</target>
+</project>

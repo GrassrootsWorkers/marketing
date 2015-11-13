@@ -1,0 +1,140 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<link rel="shortcut icon" type="image/x-icon" href="http://s.maiyaole.com/images/wap/img/favicon.ico">
+<title>登录手机壹药网</title>
+<link rel="stylesheet" href="http://s.maiyaole.com/css/wap/css/bootstrap.css">
+<!--  <link rel="stylesheet" href="http://s.maiyaole.com/css/wap/css/prod.css">-->
+<link rel="stylesheet" href="http://s.maiyaole.com/css/wap/css/alerts.css">
+</head>
+<body>
+<!--# include virtual="/mblock/17/b_wap_common_header.html" --> 
+<style>
+   .btn-primary { background-color:#0099f1; border-color:#0099f1; border-bottom:#0083ce 4px  solid;  }
+   .lg_h { background-color:#eaf9ff; height:43px; line-height:43px; font-weight:bold;}
+   .lg_h .col-lg-4,.lg_h .col-xs-4,.lg_h .col-sm-10 { padding: 0;}
+   .t_r{ text-align:right;}
+   .t_c{ text-align:center;}
+   .form-control { margin:25px 0; padding-left:30px;}
+   .social-links a {border:1px solid #e6e6e6;border-radius:50%; width:100%;  display:inline-block; transition:all 0.7s ease 0s;}
+   .social-links a  img {width:100%; height:100%; max-width:70px; max-height:64px; }
+   .social-links a:hover { box-shadow:1px 1px 5px #444; }
+   .u_a { margin:40px 0 10px 0; border:0; }
+   .g_b { background:transparent url("http://s.maiyaole.com/images/wap/g.png");background-size:23px 23px; background-repeat:no-repeat; background-position:0 11px;width:24px;display:inline-block; }
+   .t_c h3 {margin:0;line-height:43px;}
+   footer .col-xs-3 { padding: 0; width:22.65625%; margin-right:3.125%;}
+   footer .social-links .last {margin-right:0;}
+   .col-xs-10 { width:87.5%; margin:0 6.25%; padding:0; }
+   .row { margin:0;}
+   footer { margin-bottom:20px;}
+	.u_ps {background:url(http://s.maiyaole.com/images/wap/k.png);}
+	.u_name {background:url(http://s.maiyaole.com/images/wap/l.jpg);}
+   .u_name, .u_ps {background-size:14px 14px; background-repeat:no-repeat; background-position:9px 9px;}
+	.glyphicon-circle-arrow-left {font-size:18px;}
+	.form-signin span { margin-top:-20px; margin-bottom:-15px; font-size:12px;color:#5e5e5e;display:block;}
+</style>
+<div class="row lg_h">
+    <div class="container">
+        <div class="col-xs-10">
+            <div class="row">
+            <div class="col-xs-4"><a href="javascript:history.back();"><span class="g_b">&nbsp;</span></a></div>
+            <div class="col-xs-4 t_c"><h3>登录</h3></div>
+            <div class="col-xs-4 t_r"><a href="http://passport.m.111.com.cn/sso/register.action">注册</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-10">
+            <form   id="form" class="form-signin" action="#" method="post">
+                <input type="text" class="form-control u_name"    placeholder=" 用户名" required autofocus id="userName"  name="id" tabindex="1">
+                <input type="password" class="form-control u_ps" placeholder="密码" required  id="userPass" tabindex="2" name="password" >
+                <input type="hidden" id="open_id" value='$openId'  name="openId" >
+                <label class="checkbox"><input type="checkbox" name="rememberPwd_name" id="miss_login"/><small>两周免登陆</small></label>
+                <button type="button"  class="btn btn-lg btn-primary btn-block"  onclick="bindUser();" id="btnSubmit"  tabindex="6" >登&nbsp陆</button>
+            </form>
+        </div>
+    </div>
+</div>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10">
+                <legend class="col-xm-10 u_a"><b>合作账号登录</b></legend>
+                <div class="social-links">
+                    <div class="col-xs-3"><a onclick="jointLogin('QQ')" href="javascript:void(0);" class="qq"><img alt="140x140"  src="http://s.maiyaole.com/images/wap/wap_01.png" class="img-circle img-responsive" /></a></div>
+                    <div class="col-xs-3"><a onclick="jointLogin('ZFB')" href="javascript:void(0);" class="qq"><img alt="140x140"  src="http://s.maiyaole.com/images/wap/wap_03.png" class="img-circle img-responsive" /></a></div>
+                    <div class="col-xs-3"><a onclick="jointLogin('YHD')" href="javascript:void(0);" class="qq"><img alt="140x140"  src="http://s.maiyaole.com/images/wap/wap_04.png" class="img-circle img-responsive" /></a></div>
+                    <div class="col-xs-3 last"><a  href="javascript:void(0);" onclick="jointLogin('SINA')"" class="qq"><img alt="140x140"  src="http://s.maiyaole.com/images/wap/wap_05.png" class="img-circle img-responsive" /></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--# include virtual="/mblock/17/b_wap_common_bottom.html" --> 
+<script src="http://s.maiyaole.com/js/weixin/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://s.maiyaole.com/js/wap/js/bootstrap.js"></script>
+<script type="text/javascript" src="http://s.maiyaole.com/js/wap/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="http://s.maiyaole.com/js/wap/js/passport/jointlogin_wap.js"></script>
+<script type="text/javascript" src="http://s.maiyaole.com/js/wap/js/jquery.alerts.js"></script>
+<script type="text/javascript">
+function showVcdCode(){
+	$("#obtaincode").hide();
+	$("#vdeCodeDiv").show();
+	obtainVcdCode();
+}
+
+function obtainVcdCode(){
+	$("#vcdCode").attr("src",'http://m.111.com.cn/sso/getSecurityCode.action?t='+(new Date()).getTime());
+}
+
+function bindUser(){
+	var flagUserNameLogin = true;
+	var flagUserPassLogin = true;
+     if (jQuery.trim($("#userName").val()) == "") {
+         jAlert("请输入用户名");
+         flagUserNameLogin = false;
+         return false;
+     }
+     if (jQuery.trim($("#userPass").val()) == "") {
+         jAlert("请输入密码");
+         flagUserPassLogin = false;
+         return false;
+     }
+     if (flagUserNameLogin && flagUserPassLogin) {}
+     else {  return false; }
+     var type = 0;
+     if ($("#miss_login").prop("checked") == true) { 
+     	type = 1; 
+     }
+			
+     var userName = encodeURI($("#userName").val());
+     var pwd = $("#userPass").val();
+     var openId = $("#open_id").val();
+     jQuery.ajax(
+     { type:"post",
+	 	  url: "/mw/bind/$shopId/$venderId", 
+	 	  data: { 
+	 	  "username": userName, 
+	 	  "openId":openId,
+	 	  "handle":'$handle',
+	 		"password": pwd, 
+	 		 "type": type
+	 		 }, 
+	 	  async: false, 
+	 	  success: function(data) {
+	         var json = data;
+	         if (json.success) {
+               window.location.href="http://weixin.111.com.cn/html/bind_success.html";
+	         } else {
+	        	 jAlert(json.error);
+	         }
+ 		   }
+     });
+     }
+
+</script>
+</body>
+</html>

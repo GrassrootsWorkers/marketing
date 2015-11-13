@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 这里的namespace名字必须为执行该sql的dao地址 -->
+<mapper namespace="com.yao.marketing.persistences.interfaces.weixin.keywords.IKeywordsDao">
+
+	<resultMap type="keyword" id="keyword_map">
+		<result property="id" column="id"/>
+		<result property="showName" column="show_name"/>
+		<result property="content" column="content"/>
+		<result property="type" column="type"/>
+		<result property="category" column="category"/>
+		<result property="shopId" column="shop_id"/>
+		<result property="replyType" column="reply_type"/>
+		<result property="replyMethod" column="reply_method"/>		
+		<result property="status" column="status"/>
+		<result property="inputeDate" column="inpute_date"/>
+		<result property="inputer" column="inputer"/>
+	</resultMap>
+
+	<sql id="query_fields">
+		id,show_name,content,type,category,shop_id,reply_type,reply_method,status,inpute_date,inputer
+	</sql>
+	<sql id="insert_fields">
+		show_name,content,type,category,shop_id,reply_type,reply_method,status,inpute_date,inputer
+	</sql>
+	<sql id="table_name">
+		weixin_keywords
+	</sql>
+	<sql id="where">
+		<where>
+			<if test="id !=null"> and id = #{id}</if>	
+			<if test="showName != null"> and show_name  like concat("%", #{showName},"%"}</if>
+			<if test="content != null"> and content like concat(#{content},'%')</if>
+			<if test="type !=null"> and type= #{type}</if>
+			<if test="category != null"> and category = #{category}</if>
+			<if test="shopId != null"> and shop_id = #{shopId}</if>
+			<if test="replyType != null"> and reply_type = #{replyType}</if>
+			<if test="replyMethod != null"> and reply_method = #{replyMethod}</if>
+			<if test="status >0"> and status = #{status}</if>
+			<if test="inputeDate != null">	and <![CDATA[inpute_date > #{inputDate}]]></if>
+			<if test="inputer != null"> and inputer = #{inputer}</if>		
+		</where>
+	</sql>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="keyword">
+		insert into  <include refid="table_name"/>
+		(<include refid="insert_fields"/>)  
+		values(#{showName},#{content},#{type},#{category},#{shopId},#{replyType},#{replyMethod},#{status},#{inputeDate},#{inputer})
+	</insert>
+	<select id="query" parameterType="keyword" resultMap="keyword_map">
+		select <include refid="query_fields"/>  from <include refid="table_name"/>
+		<include refid="where"/>
+	</select>
+	<select id="queryTemplate" parameterType="map" resultType="template">
+		select t.template_type templateType, t.template_content templateContent, st.template_status templateStatus,st.shop_id as shopId, st.if_fill_template  ifFillTemplate
+		  from  weixin_keyword_template kt, weixin_template t, weixin_shop_template st 
+		where kt.template_id = st.id and t.template_id = st.template_id
+		and kt.key_word_id =#{keywordId}  and st.shop_id = #{shopId}
+	</select>
+</mapper>

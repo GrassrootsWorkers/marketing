@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <link rel="shortcut icon" type="image/x-icon" href="http://s.maiyaole.com/images/wap/img/favicon.ico">
+        <title>微信账户管理_壹药网</title>
+        <link rel="stylesheet" href="http://s.maiyaole.com/css/wap/css/bootstrap.css">
+    </head>
+    <body>
+    <!--# include virtual="/mblock/17/b_wap_common_header.html" -->
+    <style>
+        h1 { height:40px; line-height:40px; font-size:18px; color:#333; background-color:#eaf9ff; text-align:center; font-weight:bold; margin:0;}
+        .weixin_box{ border:1px solid #ddd; border-radius:5px; margin:10px; padding:10px;text-align:center;}
+        .weixin_box h4 { font-size:16px;  color:#333;}
+        .weixin_box h4 .glyphicon-ok { border-radius:9px; background-color:#84bb20;color:#fff; font-size:12px; font-weight:normal; width:18px; height:18px; text-align:center; line-height:18px; margin-right:10px;}
+        .weixin_box p {color:#5e5e5e; margin-top:15px;}
+        .row{ border-bottom:#e6e6e6 1px solid; padding:10px 0; }
+        .btn-primary { margin:10px; width:300px;}
+        .col-xs-9 {padding:7px 0 7px 20px; color:#333;}
+        .btn_jiebang { padding-top:5px; padding-bottom:5px; border:#e6e6e6 1px solid;background:linear-gradient(#fff, #f3f3f3) repeat scroll 0 0 rgba(0, 0, 0, 0); float:right; }
+    </style>
+    <header>
+        <h1>账号管理</h1>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-9">$username</div>
+            <div class="col-xs-3 "><button type="button" onclick="unbindUser();" class="btn btn_jiebang">解绑</button></div>
+            <input type="hidden" id="open_id" value='$openId'  name="openId" >
+        </div>
+        <button class="btn btn-block btn-primary"  onclick="changePage()">更换账号</button>
+
+    </div>
+
+<!--# include virtual="/mblock/17/b_wap_common_bottom.html" --> 
+<script src="http://s.maiyaole.com/js/weixin/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://s.maiyaole.com/js/wap/js/bootstrap.js"></script>
+<script type="text/javascript" src="http://s.maiyaole.com/js/wap/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="http://s.maiyaole.com/js/wap/js/passport/jointlogin_wap.js"></script>
+<script type="text/javascript" src="http://s.maiyaole.com/js/wap/js/jquery.alerts.js"></script>
+<script type="text/javascript">
+ function changePage(){
+	  window.location.href="/mw/change/$shopId/$venderId/$openId";
+	  }
+	  
+function unbindUser(){
+     var userName = encodeURI('$username');
+     var openId = $("#open_id").val();
+     jQuery.ajax(
+     { 
+     	type:"post",
+	 	  url: "/mw/unbind/$shopId", 
+	 	  data: { 
+		 	  			"username": userName,
+		 	  			"openId":openId,
+	 		  	  }, 
+	 	  async: false, 
+	 	  success: function(data) {
+	         var json = data;
+	         if (json.success) {
+               window.location.href="http://weixin.111.com.cn/html/unbind_success.html";
+	         } else {
+	         	jAlert(json.error);
+	         }
+ 		   }
+     });
+	}
+</script>
+</body>
+</html>

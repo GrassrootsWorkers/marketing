@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yao.marketing.persistences.interfaces.weixin.coupon.IWeixinCouponDao">
+	<resultMap type="couponInfo" id="coupon_info_map">
+		<result property="id" column="id"/>
+		<result property="batchCode" column="batch_code"/>
+		<result property="showName" column="show_name"/>
+		<result property="freezeQuantity" column="freeze_quantity"/>
+		<result property="usedCount" column="used_count"/>
+		<result property="inputeTime" column="inpute_time"/>
+		<result property="inputer" column="inputer"/>
+		<result property="status" column="status"/>
+		<result property="shopId" column="shop_id"/>
+	</resultMap>
+	
+	<resultMap type="weixinCoupon" id="coupon_map" extends="coupon_info_map">
+		<result property="openId" column="open_id"/>
+		<result property="getTime" column="get_time"/>
+	</resultMap>
+
+	<sql id="query_fields" >
+		cou.id,cou.batch_code,show_name,freeze_quantity,used_count,inpute_time,inputer,status,cou.shop_id
+	</sql>
+	<sql id="insert_fields">
+		batch_code,show_name,freeze_quantity,used_count,inpute_time,inputer,status,shop_id
+	</sql>
+	<sql id="weixin_coupon_where">
+			<if test="id >0 "> and id = #{id}</if>	
+			<if test="batchCode != null"> and batch_code = #{batchCode}</if>	
+			<if test="showName != null"> and show_name  like concat("%",#{showName},"%")</if>	
+			<if test="freezeQuantity >0"> and freeze_quantity > #{freezeQuantity}</if>	
+			<if test="usedCount > 0"> and used_count > #{usedCount}</if>	
+			<if test="inputeTime != null"> and inpute_time = #{inputeTime}</if>	
+			<if test="inputer !=null"> and inputer = #{inputer}</if>	
+			<if test="status > 0 "> and `status` = #{status}</if>	
+			<if test="shopId != null"> and shop_id =#{shopId}</if>	
+			<if test="openId != null"> and open_id =#{openId}</if>	
+			<if test="userId != null"> and user_id =#{userId} </if>
+			<if test="sendTime > 0 "> and get_time > DATE_SUB(now(),INTERVAL #{sendTime} DAY ) </if>
+	</sql>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"  parameterType="weixinCoupon">
+	insert into weixin_user_coupon (open_id,batch_code,get_time,shop_id,user_id)
+	 values(
+	 #{openId},#{batchCode},#{getTime},#{shopId},#{userId}#
+	 )
+	</insert>
+	
+	<insert id="insertCouponInfo" useGeneratedKeys="true" keyProperty="id" parameterType="couponInfo">
+	insert into weixin_coupon_info (<include refid="insert_fields"/>)
+	 values(
+		#{batchCode},#{showName},#{freezeQuantity},#{usedCount},#{inputeTime},#{inputer},#{status},#{shopId}
+	 )
+	</insert>
+	
+	<select id ="queryBindedCoupons" parameterType="weixinCoupon" resultMap="coupon_map">
+	 select <include refid="query_fields"/>,open_id,get_time  from weixin_coupon_info info, weixin_user_coupon  cou
+	 where  info.batch_code = cou.batch_code  <include refid="weixin_coupon_where"/>
+	</select>
+	
+	<select id ="queryCouponInfos"  parameterType="couponInfo" resultMap="coupon_info_map" >
+	 select id,batch_code,show_name,freeze_quantity,used_count,inpute_time,inputer,status,shop_id 
+	  from  weixin_coupon_info where 1=1 <include refid="weixin_coupon_where"/>
+	</select>
+	<update id="reduceCouponCount" parameterType="string">
+		update weixin_coupon_info set   freeze_quantity = freeze_quantity -1, used_count = used_count+1 where batch_code=#{batchCode} and freeze_quantity >0
+	</update>
+</mapper>
