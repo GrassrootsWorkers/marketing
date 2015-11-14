@@ -17,13 +17,13 @@
   	<spring.version>4.0.4.RELEASE</spring.version>
   </properties>
   
-	<scm>
+	<!--<scm>
 		<connection>scm:svn:http://192.168.89.21:8443/svn/repo/yao_projects/marketing/trunk</connection>
 		<developerConnection>scm:svn:http://192.168.89.21:8443/svn/repo/yao_projects/marketing/trunk</developerConnection>
 		<url>http://192.168.89.21:8443/svn/repo/yao_projects/marketing/trunk</url>
-	</scm>
+	</scm>-->
 	
-	<distributionManagement>
+	<!--<distributionManagement>
 		<repository>
 			<id>nexus-releases</id>
 			<name>Nexus Releases repository</name>
@@ -34,7 +34,7 @@
 			<name>Nexus Snapshots Repository</name>
 			<url>http://maven.111.com:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
-	</distributionManagement>
+	</distributionManagement>-->
 
 	<repositories>
 		<repository>
